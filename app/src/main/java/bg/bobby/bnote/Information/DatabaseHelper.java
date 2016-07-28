@@ -1,4 +1,4 @@
-package bg.bobby.bnote;
+package bg.bobby.bnote.Information;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,16 +11,18 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import bg.bobby.bnote.Information.Model.Note;
 
-public class DatabaseHelpher extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME="notes";
+
+public class DatabaseHelper extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "notes";
     private static final int DATABASE_VERSION = 1;
     private static final String NOTE_TABLE = "notes_table";
-    private static final String CREATE_TABLE = "create table "+NOTE_TABLE +"(title TEXT,note TEXT primary key)";
+    private static final String CREATE_TABLE = "create table " + NOTE_TABLE + "(title TEXT,note TEXT primary key)";
 
     Context context;
 
-    public DatabaseHelpher(Context context) {
+    public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
@@ -39,9 +41,9 @@ public class DatabaseHelpher extends SQLiteOpenHelper {
         // Create tables again
         onCreate(db);
     }
+
     /* Insert into database*/
-    public void insertIntoDB(String title,String note){
-        Log.d("insert", "before insert");
+    public void insertIntoDB(String title, String note) {
 
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -59,26 +61,24 @@ public class DatabaseHelpher extends SQLiteOpenHelper {
         Toast.makeText(context, "insert value", Toast.LENGTH_LONG);
         Log.i("insert into DB", "After insert");
     }
+
     /* Retrive  data from database */
-    public List<DatabaseModel> getDataFromDB(){
-        List<DatabaseModel> modelList = new ArrayList<DatabaseModel>();
-        String query = "select * from "+NOTE_TABLE;
+    public List<Note> getDataFromDB() {
+        List<Note> modelList = new ArrayList<Note>();
+        String query = "select * from " + NOTE_TABLE;
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
+        Cursor cursor = db.rawQuery(query, null);
 
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
-                DatabaseModel model = new DatabaseModel();
+                Note model = new Note();
                 model.setTitle(cursor.getString(1));
                 model.setNote(cursor.getString(0));
 
                 modelList.add(model);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
-
-
-        Log.d("note data", modelList.toString());
 
 
         return modelList;
@@ -87,9 +87,9 @@ public class DatabaseHelpher extends SQLiteOpenHelper {
 
     /*delete a row from database*/
 
-    public void deleteARow(String note){
-        SQLiteDatabase db= this.getWritableDatabase();
-        db.delete(NOTE_TABLE, "note" + " = ?", new String[] { note });
+    public void deleteARow(String note) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(NOTE_TABLE, "note" + " = ?", new String[]{note});
         db.close();
     }
 

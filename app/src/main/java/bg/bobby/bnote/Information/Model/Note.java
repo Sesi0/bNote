@@ -1,6 +1,6 @@
-package bg.bobby.bnote;
+package bg.bobby.bnote.Information.Model;
 
-public class DatabaseModel {
+public class Note {
     private String title;
     private String note;
 

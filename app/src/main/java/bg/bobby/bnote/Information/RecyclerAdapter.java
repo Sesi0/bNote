@@ -1,4 +1,4 @@
-package bg.bobby.bnote;
+package bg.bobby.bnote.Information;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,13 +13,17 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import bg.bobby.bnote.Activities.DetailsActivity;
+import bg.bobby.bnote.Information.Model.Note;
+import bg.bobby.bnote.R;
+
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-    static List<DatabaseModel> dbList;
-    List<DatabaseModel> itemsCopy;
+    static List<Note> dbList;
     static Context context;
-    RecyclerAdapter(Context context, List<DatabaseModel> dbList) {
-        this.dbList = new ArrayList<DatabaseModel>();
+
+    public RecyclerAdapter(Context context, List<Note> dbList) {
+        this.dbList = new ArrayList<Note>();
         this.context = context;
         this.dbList = dbList;
 
@@ -73,12 +77,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             extras.putInt("position", getAdapterPosition());
             intent.putExtras(extras);
 
-
-            /*
-            int i=getAdapterPosition();
-            intent.putExtra("position", getAdapterPosition());*/
             context.startActivity(intent);
-            Toast.makeText(RecyclerAdapter.context, "you have clicked Row " + getAdapterPosition(), Toast.LENGTH_LONG).show();
         }
     }
 }
